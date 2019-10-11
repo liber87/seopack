@@ -560,7 +560,7 @@
 							</thead>
 							<tbody>
 								<?php
-									if ((is_array($short_url)) (count($short_url)))
+									if ((is_array($short_url)) && (count($short_url)))
 									{
 										foreach($short_url as $key => $item)
 										{
