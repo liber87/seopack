@@ -195,7 +195,7 @@
 		
 		if ($favicon_generate=='true')
 		{			
-			$favicon = $modx->runSnippet('FaviconGenerator',array('bg'=>$bg,'img'=>$img,'ico'=>1));					
+			$favicon = $modx->runSnippet('FaviconGenerator',array('bg'=>$bg,'img'=>$fav_img,'ico'=>1));					
 			$content = str_replace('</head>',$favicon.PHP_EOL.'</head>',$content);
 		}
 		if ($ctrlf5=='true')
