@@ -43,6 +43,7 @@
 		$f=fopen(MODX_BASE_PATH."assets/modules/seopack/configs/general.config.php",'w');
 		fwrite($f,$text);
 		fclose($f);
+		$general = $_POST;
 		break;
 		
 		case 'redirect':
@@ -387,7 +388,7 @@
 									</td>
 									<td class="inputCell relative" width="74%">
 										<div style="position:relative;">	
-											<input type="text" name="img" id="img" value="<?=$general['img'];?>" class="imageField">
+											<input type="text" name="fav_img" id="img" value="<?=$general['fav_img'];?>" class="imageField">
 											<input type="button" value="Вставить" onclick="BrowseServer('img')" style="position: absolute; right: 0;">
 										</div>	
 										
