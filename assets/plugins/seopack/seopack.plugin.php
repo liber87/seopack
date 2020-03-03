@@ -333,23 +333,29 @@
 			$q = $modx->db->escape($_REQUEST['q']);
 			
 			//Short url
-			require_once(MODX_BASE_PATH."assets/modules/seopack/configs/short_url.config.php");
-			if ($short_url[$q])
+			if (file_exists(MODX_BASE_PATH."assets/modules/seopack/configs/short_url.config.php"))
 			{
-				$site = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/';
-				$url = $site.$short_url[$q];
-				$html = file_get_contents($url);
-				header("HTTP/1.1 200 OK");
-				echo $html;
-				exit();
+				require_once(MODX_BASE_PATH."assets/modules/seopack/configs/short_url.config.php");
+				if ($short_url[$q])
+				{
+					$site = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/';
+					$url = $site.$short_url[$q];
+					$html = file_get_contents($url);
+					header("HTTP/1.1 200 OK");
+					echo $html;
+					exit();
+				}
 			}
 			
 			//Redirect Map
-			require_once(MODX_BASE_PATH."assets/modules/seopack/configs/redirect.config.php");
-			if ($map[$q])
+			if (file_exists(MODX_BASE_PATH."assets/modules/seopack/configs/redirect.config.php"))
 			{
-				$modx->sendRedirect($map[$q],0,'REDIRECT_HEADER','HTTP/1.1 301 Moved Permanently');
-				exit();
+				require_once(MODX_BASE_PATH."assets/modules/seopack/configs/redirect.config.php");
+				if ($map[$q])
+				{
+					$modx->sendRedirect($map[$q],0,'REDIRECT_HEADER','HTTP/1.1 301 Moved Permanently');
+					exit();
+				}
 			}
 			break;
 			
