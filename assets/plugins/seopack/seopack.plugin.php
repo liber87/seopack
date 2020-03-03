@@ -1,6 +1,5 @@
 <?php
-	if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
-	$e = &$modx->Event;	
+	if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}	
 	
 	if (file_exists(MODX_BASE_PATH."assets/modules/seopack/configs/general.config.php"))
 	{
@@ -9,7 +8,7 @@
 	else return; //Если конфиг не создан, то ничего не делаем.
 	use WebPConvert\WebPConvert;
 	//Actions
-	switch($e->name)
+	switch($modx->Event->name)
 	{
 		case 'OnWebPagePrerender':
 		extract($general);
@@ -308,7 +307,7 @@
 			
 			case 'OnPageNotFound':
 			$q = $modx->db->escape($_REQUEST['q']);
-			if (isset($_GET['url']) && (!empty($_GET['url'])) && ($q==$error_page))
+			if (isset($_GET['url']) && (!empty($_GET['url'])) && ($q==$general['error_page']))
 			{
 				$pos = strpos($_SERVER['HTTP_REFERER'], $_SERVER["HTTP_HOST"]);
 				
