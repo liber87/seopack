@@ -28,9 +28,9 @@
 			}
 		}
 		
-		if (!function_exists('DetectSearchEngine'))
+		if (!function_exists('de'))
 		{
-			function DetectSearchEngine($USER_AGENT)
+			function de($agent)
 			{
 				$engines = array(
 				array('Aport', 'Aport'),
@@ -67,13 +67,13 @@
 				
 				foreach ($engines as $engine)
 				{
-					if (stristr($USER_AGENT, $engine[0]))
+					if (stristr($agent, $engine[0]))
 					{
 						return($engine[1]);
 					}
 				}
 				return (false);
-			} 
+			}
 		}
 		
 		
@@ -265,7 +265,7 @@
 		if ($general['code304']=='true')
 		{
 			
-			$detect = DetectSearchEngine($_SERVER['HTTP_USER_AGENT']);
+			$detect = de($_SERVER['HTTP_USER_AGENT']);
 			
 			if ($detect)
 			{				
