@@ -279,8 +279,8 @@
 					
 				}
 			}
-			
-			$modx->event->output($content);
+			$modx->documentOutput = $content;
+			//$modx->event->output($content);
 			break;
 			
 			
