@@ -6,10 +6,12 @@
 		require_once(MODX_BASE_PATH."assets/modules/seopack/configs/general.config.php");
 	}	
 	else return; //Если конфиг не создан, то ничего не делаем.
-	use WebPConvert\WebPConvert;
+	
+	use WebPConvert\WebPConvert;	
 	//Actions
 	switch($modx->Event->name)
-	{
+	{	
+		
 		case 'OnWebPagePrerender':
 		extract($general);
 		if (!function_exists('compress_html'))
@@ -279,8 +281,8 @@
 					
 				}
 			}
-			$modx->documentOutput = $content;
-			//$modx->event->output($content);
+			
+			$modx->event->output($content);
 			break;
 			
 			
@@ -289,7 +291,7 @@
 			case 'OnDocDuplicate':
 			
 			if (!isset ($updateid)) { $updateid = '1'; }		  
-			$id = ($_POST['id'])? $_POST['id'] : $e->params['id'];		
+			$id = ($_POST['id'])? $_POST['id'] : $modx->evenet->params['id'];		
 			$getParentIds = $modx->getParentIds($id);		
 			$getParentIds = array_merge( $getParentIds, (explode(',',$updateid)) );		
 			$getParentIds = array_unique($getParentIds);
@@ -304,6 +306,42 @@
 			
 			break;
 			
+			case 'onAfterMoveDocument':			
+			if (!function_exists('getPath'))
+			{
+				function getPath($id){	
+					global $modx;
+					$id = (int) $id;
+					$alias = $modx->db->getValue('Select alias from '.$modx->getFullTableName('site_content').' where id='.$id);
+					if (!$alias) $alias = $id;
+					$ids = array();
+					while($id!=0)
+					{
+						$ids[] = $id;
+						$id = $modx->db->getValue('Select parent from '.$modx->getFullTableName('site_content').' where id='.$id);
+					}
+					if (count($ids)>1)
+					{
+					$ids = array_reverse($ids);
+					array_pop($ids);	
+					$path = $modx->db->getValue('Select GROUP_CONCAT(`alias` SEPARATOR "/") from evo_site_content where id in ('.implode(',',$ids).') and `alias_visible`=1').'/';
+					}
+					return $path.$alias.$modx->config['friendly_url_suffix'];	
+				}
+			}
+			$old = $modx->makeUrl($id_document);
+			$new = '/'.getPath($id_document);
+			$map = array();
+			if (file_exists(MODX_BASE_PATH."assets/modules/seopack/configs/redirect.config.php"))
+			{
+				include_once(MODX_BASE_PATH."assets/modules/seopack/configs/redirect.config.php");
+			}
+			if ($old!=$new) $map[$old] = $new;
+			$text = "<?php".PHP_EOL.'$map='.var_export($map,1).';';		
+			$f=fopen(MODX_BASE_PATH."assets/modules/seopack/configs/redirect.config.php",'w');
+			fwrite($f,$text);
+			fclose($f);
+			break;
 			
 			case 'OnPageNotFound':
 			$q = $modx->db->escape($_REQUEST['q']);
