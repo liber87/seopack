@@ -5,7 +5,7 @@
  * SeoPack
  *
  * @category    plugin
- * @internal    @events OnWebPagePrerender,OnManagerMenuPrerender,OnPageNotFound
+ * @internal    @events OnWebPagePrerender,OnManagerMenuPrerender,OnPageNotFound,onAfterMoveDocument
  * @internal    @modx_category SEO
  * @internal    @properties 
  * @internal    @disabled 0
