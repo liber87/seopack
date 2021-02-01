@@ -111,7 +111,33 @@
 		break;
 		
 		case 'create_robots_txt':
-		$txt = file_get_contents('https://raw.githubusercontent.com/evolution-cms/evolution/2.0.x/sample-robots.txt');
+		$txt = '
+		# Default Evolution CMS exclusions
+		User-agent: *
+		Disallow: /assets/backup/
+		Disallow: /assets/cache/
+		Disallow: /assets/docs/
+		Disallow: /assets/export/
+		Disallow: /assets/import/
+		Disallow: /assets/modules/
+		Disallow: /assets/plugins/
+		Disallow: /assets/snippets/
+		Disallow: /assets/packages/ 
+		Disallow: /assets/tvs/
+		Disallow: /install/
+
+		Allow: /assets/cache/images/
+		Allow: /assets/modules/*.css
+		Allow: /assets/modules/*.js
+		Allow: /assets/plugins/*.css
+		Allow: /assets/plugins/*.js
+		Allow: /assets/snippets/*.css
+		Allow: /assets/snippets/*.js
+
+		# Host: example.com
+
+		# For sitemaps.xml autodiscovery. Uncomment if you have one:
+		# Sitemap: http://example.com/sitemap.xml';
 		$f=fopen(MODX_BASE_PATH."robots.txt",'w');
 		fwrite($f,$txt);
 		fclose($f);
